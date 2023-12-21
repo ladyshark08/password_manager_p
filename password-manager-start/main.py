@@ -5,6 +5,27 @@ from string import ascii_lowercase, ascii_uppercase, digits, punctuation
 import random
 import pyperclip
 
+# ---------------------------- SEARCH PASSWORD ------------------------------- #
+def search_password():
+    website = website_entry.get()
+    result = ""
+    with open("data.txt") as data:
+        for line in data:
+            line = line.split("|")
+            if line[0].strip().lower() != website.lower():
+                continue
+            else:
+                email = line[1].strip()
+                password = line[2].strip()
+                result = "yes"
+
+    if result != "":
+        messagebox.showinfo(title=f"{website}", message=f"Email{email}\nPassword:{password}")
+
+    else:
+        messagebox.showinfo(title=f"{website}", message="no password found for this website")
+
+
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 def generate_password():
@@ -79,7 +100,10 @@ password_entry = Entry(width=25)
 password_entry.grid(row=3, column=1)
 
 gen_button = Button(text="Generate", command=generate_password)
-gen_button.grid(row=3, column=2)
-add_button = Button(text="Add", width=21, command=save)
+gen_button.grid(row=3, column=3)
+add_button = Button(text="Add", width=32, command=save)
 add_button.grid(row=4, column=1)
+
+search_button = Button(text="Search", command=search_password)
+search_button.grid(row=1, column=3)
 window.mainloop()
